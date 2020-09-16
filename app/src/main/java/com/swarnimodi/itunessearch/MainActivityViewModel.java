@@ -24,7 +24,7 @@ public class MainActivityViewModel extends ViewModel{
         mSongs = mRepo.getSongs();
     }
 
-    public void newSearch(final List<Song> songs) {
+    public void newSearch(final String search_term) {
         mIsUpdating.setValue(true);
 
         new AsyncTask<Void, Void, Void>(){
@@ -32,6 +32,15 @@ public class MainActivityViewModel extends ViewModel{
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+                //send search request
+
+
+
+
+
+
+                //after search results change, update
+                List<Song> songs = mSongs.getValue();
                 mSongs.postValue(songs);
                 mIsUpdating.setValue(false);
             }
