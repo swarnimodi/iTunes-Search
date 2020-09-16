@@ -48,9 +48,9 @@ public class GridAdapter extends BaseAdapter {
         TextView Artist = convertView.findViewById(R.id.artist);
         TextView Album = convertView.findViewById(R.id.album);
 
-        Name.setText(song.get(position).getName());
-        Artist.setText(song.get(position).getArtist());
-        Album.setText(song.get(position).getAlbum());
+        Name.setText(song.get(position).getTrackName());
+        Artist.setText(song.get(position).getArtistName());
+        Album.setText(song.get(position).getCollectionName());
 
         return convertView;
     }
