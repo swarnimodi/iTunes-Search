@@ -21,7 +21,7 @@ public class MainActivityViewModel extends ViewModel{
             return;
         }
         mRepo = SongRepository.getInstance();
-        mSongs = mRepo.getSongs();
+        mSongs = mRepo.getSongs("");
     }
 
     public void newSearch(final String search_term) {
