@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 searchTerm = searchBar.getText().toString();
                 //Call the searching method over here and pass the searchTerm
-                mMainActivityViewModel.newSearch(searchTerm);
+                mMainActivityViewModel.newSearch(MainActivity.this, searchTerm);
             }
         });
 

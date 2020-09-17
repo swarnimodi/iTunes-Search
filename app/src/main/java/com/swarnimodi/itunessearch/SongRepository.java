@@ -1,5 +1,6 @@
 package com.swarnimodi.itunessearch;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -25,14 +26,14 @@ public class SongRepository {
         return instance;
     }
 
-    public MutableLiveData<List<Song>> getSongs(String search_term) {
-        setSongs(search_term);
+    public MutableLiveData<List<Song>> getSongs(Context context, String search_term) {
+        setSongs(context, search_term);
         MutableLiveData<List<Song>> data = new MutableLiveData<>();
         data.setValue(dataset);
         return data;
     }
 
-    private void setSongs(String searchTerm) {
+    private void setSongs(Context context, String searchTerm) {
 
         dataset.add(new Song("Abhi Abhi","KK","Jism 2"));
         dataset.add(new Song("Aadat","Atif Aslam","Kalyug"));
@@ -41,22 +42,13 @@ public class SongRepository {
         dataset.add(new Song("Gulabi Ankhen","Mohammed Rafi","The Train"));
         dataset.add(new Song("Oh Hansini","Kishore Kumar","Zehreela Insaan"));
         dataset.add(new Song("Ae Kash Ke Hum","Kumar Sanu","Kabhi Haan Kabhi Naa"));
+        dataset.add(new Song("Tum Ho","Mohit Chauhan","Rockstar"));
+
         //get search results here
         //add them like --> dataset.add(new Song(name:"...", artist:"...", album:"..."));
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        Api api = retrofit.create(Api.class);
-
-        Call<ResultModel> call = api.getSearchResults();
-        call.enqueue(new Callback<ResultModel>() {
-            @Override
-            public void onResponse(Call<ResultModel> call, Response<ResultModel> response) {
-                ResultModel resultModel = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<ResultModel> call, Throwable t) {
-            }
-        });
+        Controller controller = new Controller(context, searchTerm);
     }
+
+
 }

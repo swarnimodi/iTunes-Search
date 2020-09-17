@@ -1,6 +1,6 @@
 package com.swarnimodi.itunessearch;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
@@ -13,18 +13,17 @@ import java.util.List;
 public class MainActivityViewModel extends ViewModel{
 
     private MutableLiveData <List<Song>> mSongs;
-    private SongRepository mRepo;
     private MutableLiveData<Boolean> mIsUpdating = new MutableLiveData<>();
+    private SongRepository mRepo;
 
     public void init(){
         if(mSongs != null) {
             return;
         }
         mRepo = SongRepository.getInstance();
-        mSongs = mRepo.getSongs("");
     }
 
-    public void newSearch(final String search_term) {
+    public void newSearch(final Context context, final String search_term) {
         mIsUpdating.setValue(true);
 
         new AsyncTask<Void, Void, Void>(){
@@ -36,6 +35,8 @@ public class MainActivityViewModel extends ViewModel{
 
 
 
+                //after search is done
+                mSongs = mRepo.getSongs(context, search_term);
 
 
 
