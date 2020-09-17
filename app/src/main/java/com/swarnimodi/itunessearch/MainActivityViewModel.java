@@ -13,8 +13,7 @@ import java.util.List;
 
 public class MainActivityViewModel extends ViewModel{
 
-    private MutableLiveData <List<Song>> mSongs;
-    private MutableLiveData<Boolean> mIsUpdating = new MutableLiveData<>();
+    private MutableLiveData <List<Song>> mSongs = new MutableLiveData<>();
     private SongRepository mRepo;
 
     public void init(){
@@ -22,11 +21,11 @@ public class MainActivityViewModel extends ViewModel{
             return;
         }
         mRepo = SongRepository.getInstance();
+        mSongs = mRepo.getSongs();
     }
 
     @SuppressLint("StaticFieldLeak")
     public void newSearch(final Context context, final String search_term) {
-        mIsUpdating.setValue(true);
 
         new AsyncTask<Void, Void, Void>(){
 
@@ -41,14 +40,13 @@ public class MainActivityViewModel extends ViewModel{
                 //after search results change, update
                 List<Song> songs = mSongs.getValue();
                 mSongs.postValue(songs);
-                mIsUpdating.setValue(false);
             }
 
             @Override
             protected Void doInBackground(Void... voids) {
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -60,9 +58,5 @@ public class MainActivityViewModel extends ViewModel{
 
     public LiveData<List<Song>> getSongs() {
         return mSongs;
-    }
-
-    public LiveData<Boolean> getIsUpdating() {
-        return mIsUpdating;
     }
 }

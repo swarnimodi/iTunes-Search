@@ -13,16 +13,25 @@ public class GridAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
-    private List<Song> song;
+    private List<Song> songs;
 
-    public GridAdapter(Context c, List<Song> song) {
-        context = c;
-        this.song = song;
+    public GridAdapter(Context c, List<Song> songs) {
+        this.context = c;
+        this.songs = songs;
+    }
+
+    public GridAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
     public int getCount() {
-        return song.size();
+        if(songs == null) {
+            return 0;
+        }
+        else {
+            return songs.size();
+        }
     }
 
     @Override
@@ -48,9 +57,9 @@ public class GridAdapter extends BaseAdapter {
         TextView Artist = convertView.findViewById(R.id.artist);
         TextView Album = convertView.findViewById(R.id.album);
 
-        Name.setText(song.get(position).getTrackName());
-        Artist.setText(song.get(position).getArtistName());
-        Album.setText(song.get(position).getCollectionName());
+        Name.setText(songs.get(position).getTrackName());
+        Artist.setText(songs.get(position).getArtistName());
+        Album.setText(songs.get(position).getCollectionName());
 
         return convertView;
     }

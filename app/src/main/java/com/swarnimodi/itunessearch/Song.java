@@ -4,6 +4,9 @@ public class Song {
 
     private String artistName, collectionName, trackName;
 
+    public Song() {
+    }
+
     public Song(String trackName, String artistName, String collectionName) {
         this.artistName = artistName;
         this.collectionName = collectionName;

@@ -26,6 +26,10 @@ public class SongRepository {
         return data;
     }
 
+    public MutableLiveData<List<Song>> getSongs() {
+        return null;
+    }
+
     private void setSongs(Context context, String searchTerm) {
 
         //get search results here
