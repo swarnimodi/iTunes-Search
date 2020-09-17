@@ -26,13 +26,16 @@
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:columnWidth="100dp"
+        android:layout_marginTop="230dp"
+        android:layout_marginBottom="75dp"
+        android:columnWidth="150dp"
         android:numColumns="2"
-        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:stretchMode="columnWidth">
+        app:layout_constraintTop_toTopOf="parent">
 
     </GridView>
 
@@ -40,11 +43,12 @@
         android:id="@+id/search_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:onClick="onClick"
         android:text="@string/search"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/search_bar"
-        app:layout_constraintBottom_toTopOf="@id/grid_view"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

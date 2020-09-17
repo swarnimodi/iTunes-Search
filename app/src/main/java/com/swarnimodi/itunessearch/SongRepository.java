@@ -27,7 +27,10 @@ public class SongRepository {
     }
 
     public MutableLiveData<List<Song>> getSongs() {
-        return null;
+        dataset.add(new Song("","",""));
+        MutableLiveData<List<Song>> data = new MutableLiveData<>();
+        data.setValue(dataset);
+        return data;
     }
 
     private void setSongs(Context context, String searchTerm) {
@@ -37,7 +40,10 @@ public class SongRepository {
 
         Controller controller = new Controller(context, searchTerm);
         controller.start();
+        dataset.clear();
         dataset.addAll(Controller.songs);
+        dataset.add(new Song("","",""));
+        dataset.add(new Song("","",""));
     }
 
 

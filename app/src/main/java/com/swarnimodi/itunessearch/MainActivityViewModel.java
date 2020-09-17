@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MainActivityViewModel extends ViewModel{
 
-    private MutableLiveData <List<Song>> mSongs = new MutableLiveData<>();
+    private MutableLiveData <List<Song>> mSongs;
     private SongRepository mRepo;
 
     public void init(){
@@ -34,9 +34,6 @@ public class MainActivityViewModel extends ViewModel{
                 super.onPostExecute(aVoid);
                 //send search request
                 mSongs = mRepo.getSongs(context, search_term);
-
-
-
                 //after search results change, update
                 List<Song> songs = mSongs.getValue();
                 mSongs.postValue(songs);
@@ -46,7 +43,7 @@ public class MainActivityViewModel extends ViewModel{
             protected Void doInBackground(Void... voids) {
 
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

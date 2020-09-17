@@ -6,7 +6,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,11 +14,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Controller implements Callback<List<Song>> {
+public class Controller implements Callback<SearchResult> {
 
     public String term;
     public Context context;
-    public static List<Song> songs;
+    public static ArrayList<Song> songs = new ArrayList<>();
 
     public Controller(Context context, String term) {
         this.context = context;
@@ -30,17 +30,24 @@ public class Controller implements Callback<List<Song>> {
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
         Api api = retrofit.create(Api.class);
-        Call<List<Song>> call = api.getSearchResults(term);
+        int limit = 20;
+        Call<SearchResult> call = api.getSearchResults(term, limit);
         call.enqueue(this);
     }
 
     @Override
-    public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
-        songs = response.body();
+    public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
+        SearchResult searchResult =  response.body();
+        try{
+            songs = (ArrayList<Song>) searchResult.getSongs();
+        }
+        catch (Exception e){
+            songs.clear();
+        }
     }
 
     @Override
-    public void onFailure(Call<List<Song>> call, Throwable t) {
+    public void onFailure(Call<SearchResult> call, Throwable t) {
         Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

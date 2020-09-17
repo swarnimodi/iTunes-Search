@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
@@ -18,8 +17,6 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel mMainActivityViewModel;
     private GridAdapter adapter;
     private EditText searchBar;
-    private Button searchButton;
-    private String searchTerm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,30 +25,28 @@ public class MainActivity extends AppCompatActivity {
 
         gridView = findViewById(R.id.grid_view);
         searchBar = findViewById(R.id.search_bar);
-        searchButton = findViewById(R.id.search_button);
 
         mMainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
         mMainActivityViewModel.init();
 
-        initGridView();
-
         mMainActivityViewModel.getSongs().observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(List<Song> songs) {
                 adapter.notifyDataSetChanged();
-            }
-        });
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchTerm = searchBar.getText().toString();
-                //Call the searching method over here and pass the searchTerm
-                mMainActivityViewModel.newSearch(MainActivity.this, searchTerm);
                 gridView.smoothScrollToPosition(0);
             }
         });
+
+        initGridView();
+    }
+
+    public void onClick(View v) {
+
+        String searchTerm = searchBar.getText().toString();
+        searchTerm = searchTerm.replace(" ", "+");
+        //Call the searching method over here and pass the searchTerm
+        mMainActivityViewModel.newSearch(MainActivity.this, searchTerm);
     }
 
     private void initGridView() {
