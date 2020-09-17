@@ -1,5 +1,6 @@
 package com.swarnimodi.itunessearch;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -23,6 +24,7 @@ public class MainActivityViewModel extends ViewModel{
         mRepo = SongRepository.getInstance();
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void newSearch(final Context context, final String search_term) {
         mIsUpdating.setValue(true);
 
@@ -32,10 +34,6 @@ public class MainActivityViewModel extends ViewModel{
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 //send search request
-
-
-
-                //after search is done
                 mSongs = mRepo.getSongs(context, search_term);
 
 

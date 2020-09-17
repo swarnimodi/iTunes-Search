@@ -16,13 +16,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Controller implements Callback<List<Song>> {
 
-    static final String BASE_URL = Api.BASE_URL;
-    String search_term;
+    public String term;
     public Context context;
+    public static List<Song> songs;
 
     public Controller(Context context, String term) {
         this.context = context;
-        search_term = term;
+        this.term = term;
     }
 
     public void start() {
@@ -36,7 +36,7 @@ public class Controller implements Callback<List<Song>> {
 
     @Override
     public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
-
+        songs = response.body();
     }
 
     @Override

@@ -35,19 +35,12 @@ public class SongRepository {
 
     private void setSongs(Context context, String searchTerm) {
 
-        dataset.add(new Song("Abhi Abhi","KK","Jism 2"));
-        dataset.add(new Song("Aadat","Atif Aslam","Kalyug"));
-        dataset.add(new Song("Aankhein Teri","Roop Kumar Rathod","Anwar"));
-        dataset.add(new Song("Main Agar Kahoon","Sonu Nigam","Om Shanti Om"));
-        dataset.add(new Song("Gulabi Ankhen","Mohammed Rafi","The Train"));
-        dataset.add(new Song("Oh Hansini","Kishore Kumar","Zehreela Insaan"));
-        dataset.add(new Song("Ae Kash Ke Hum","Kumar Sanu","Kabhi Haan Kabhi Naa"));
-        dataset.add(new Song("Tum Ho","Mohit Chauhan","Rockstar"));
-
         //get search results here
         //add them like --> dataset.add(new Song(name:"...", artist:"...", album:"..."));
 
         Controller controller = new Controller(context, searchTerm);
+        controller.start();
+        dataset.addAll(Controller.songs);
     }
 
 
