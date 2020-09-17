@@ -15,6 +15,7 @@ public class MainActivityViewModel extends ViewModel{
 
     private MutableLiveData <List<Song>> mSongs;
     private SongRepository mRepo;
+    private MutableLiveData<Boolean> mIsUpdating = new MutableLiveData<>();
 
     public void init(){
         if(mSongs != null) {
@@ -27,6 +28,8 @@ public class MainActivityViewModel extends ViewModel{
     @SuppressLint("StaticFieldLeak")
     public void newSearch(final Context context, final String search_term) {
 
+        mIsUpdating.setValue(true);
+
         new AsyncTask<Void, Void, Void>(){
 
             @Override
@@ -37,6 +40,7 @@ public class MainActivityViewModel extends ViewModel{
                 //after search results change, update
                 List<Song> songs = mSongs.getValue();
                 mSongs.postValue(songs);
+                mIsUpdating.setValue(false);
             }
 
             @Override
@@ -55,5 +59,9 @@ public class MainActivityViewModel extends ViewModel{
 
     public LiveData<List<Song>> getSongs() {
         return mSongs;
+    }
+
+    public LiveData<Boolean> getIsUpdating() {
+        return mIsUpdating;
     }
 }

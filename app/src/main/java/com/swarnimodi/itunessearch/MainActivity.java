@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
 
     private GridView gridView;
@@ -27,14 +25,15 @@ public class MainActivity extends AppCompatActivity {
         searchBar = findViewById(R.id.search_bar);
 
         mMainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-
         mMainActivityViewModel.init();
 
-        mMainActivityViewModel.getSongs().observe(this, new Observer<List<Song>>() {
+        mMainActivityViewModel.getIsUpdating().observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(List<Song> songs) {
-                adapter.notifyDataSetChanged();
-                gridView.smoothScrollToPosition(0);
+            public void onChanged(Boolean aBoolean) {
+                if (!aBoolean) {
+                    adapter.notifyDataSetChanged();
+                    gridView.smoothScrollToPosition(0);
+                }
             }
         });
 
