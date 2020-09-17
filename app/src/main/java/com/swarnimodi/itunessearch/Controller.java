@@ -30,7 +30,7 @@ public class Controller implements Callback<List<Song>> {
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
         Api api = retrofit.create(Api.class);
-        Call<List<Song>> call = api.getSearchResults();
+        Call<List<Song>> call = api.getSearchResults(term);
         call.enqueue(this);
     }
 
