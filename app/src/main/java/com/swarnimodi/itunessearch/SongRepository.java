@@ -1,6 +1,7 @@
 package com.swarnimodi.itunessearch;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -11,9 +12,10 @@ public class SongRepository {
 
     private static SongRepository instance;
     private ArrayList<Song> dataset = new ArrayList<>();
+    RoomDB database;
 
     public static SongRepository getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new SongRepository();
         }
         return instance;
@@ -27,7 +29,7 @@ public class SongRepository {
     }
 
     public MutableLiveData<List<Song>> getSongs() {
-        dataset.add(new Song("","",""));
+        dataset.add(new Song("", "", ""));
         MutableLiveData<List<Song>> data = new MutableLiveData<>();
         data.setValue(dataset);
         return data;
@@ -40,11 +42,31 @@ public class SongRepository {
 
         Controller controller = new Controller(context, searchTerm);
         controller.start();
-        dataset.clear();
-        dataset.addAll(Controller.songs);
-        dataset.add(new Song("","",""));
-        dataset.add(new Song("","",""));
+        database = RoomDB.getInstance(context);
+        SongData RoomData = database.songDao().getSongs(searchTerm);
+
+        if (RoomData == null) {
+            if (Controller.isWorking) {
+                dataset.clear();
+                dataset.addAll(Controller.songs);
+                dataset.add(new Song("", "", ""));
+                dataset.add(new Song("", "", ""));
+
+                RoomData = new SongData();
+                RoomData.setSearchTerm(searchTerm);
+                RoomData.setSongList(new SongList(dataset));
+                database.songDao().insert(RoomData);
+            }
+            else{
+                Toast.makeText(context, "Internet not working", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            SongList data = RoomData.getSongList();
+            dataset.clear();
+            dataset.addAll(data.getSongList());
+            dataset.add(new Song("", "", ""));
+            dataset.add(new Song("", "", ""));
+        }
     }
-
-
 }

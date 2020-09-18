@@ -19,6 +19,7 @@ public class Controller implements Callback<SearchResult> {
     public String term;
     public Context context;
     public static ArrayList<Song> songs = new ArrayList<>();
+    public static boolean isWorking;
 
     public Controller(Context context, String term) {
         this.context = context;
@@ -38,6 +39,7 @@ public class Controller implements Callback<SearchResult> {
     @Override
     public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
         SearchResult searchResult =  response.body();
+        isWorking = true;
         try{
             songs = (ArrayList<Song>) searchResult.getSongs();
         }
@@ -48,6 +50,6 @@ public class Controller implements Callback<SearchResult> {
 
     @Override
     public void onFailure(Call<SearchResult> call, Throwable t) {
-        Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+        isWorking = false;
     }
 }
