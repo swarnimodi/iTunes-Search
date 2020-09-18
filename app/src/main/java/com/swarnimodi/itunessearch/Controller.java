@@ -1,7 +1,8 @@
 package com.swarnimodi.itunessearch;
 
 import android.content.Context;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,7 +38,7 @@ public class Controller implements Callback<SearchResult> {
     }
 
     @Override
-    public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
+    public void onResponse(@NonNull Call<SearchResult> call, Response<SearchResult> response) {
         SearchResult searchResult =  response.body();
         isWorking = true;
         try{
@@ -49,7 +50,7 @@ public class Controller implements Callback<SearchResult> {
     }
 
     @Override
-    public void onFailure(Call<SearchResult> call, Throwable t) {
+    public void onFailure(@NonNull Call<SearchResult> call, Throwable t) {
         isWorking = false;
     }
 }
