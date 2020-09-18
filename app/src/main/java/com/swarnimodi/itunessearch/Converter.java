@@ -17,14 +17,12 @@ public class Converter {
         else {
             List<String> values = Arrays.asList(value.split("`"));
             ArrayList<Song> s = new ArrayList<>(values.size()/3);
-            int c = 0;
             int i = 0;
             while(i<values.size()) {
                 Song song = new Song();
                 song.setTrackName(values.get(i++));
                 song.setArtistName(values.get(i++));
                 song.setCollectionName(values.get(i++));
-                c++;
                 s.add(song);
             }
             return new SongList(s);
