@@ -35,14 +35,14 @@ public class Converter {
             return null;
         }
         else {
-            String value = "";
+            StringBuilder value = new StringBuilder();
             for(int i=0; i<songList.getSongList().size(); i++) {
-                value += songList.getSongList().get(i).getTrackName() + "`";
-                value += songList.getSongList().get(i).getArtistName() + "`";
-                value += songList.getSongList().get(i).getCollectionName() + "`";
+                value.append(songList.getSongList().get(i).getTrackName()).append("`");
+                value.append(songList.getSongList().get(i).getArtistName()).append("`");
+                value.append(songList.getSongList().get(i).getCollectionName()).append("`");
             }
-            value = value.substring(value.length()-1);
-            return value;
+            value = new StringBuilder(value.substring(value.length() - 1));
+            return value.toString();
         }
     }
 }
