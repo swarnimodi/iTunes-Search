@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @Entity(tableName = "table_name")
 public class SongData implements Serializable {
@@ -19,7 +20,7 @@ public class SongData implements Serializable {
 
     @ColumnInfo(name = "song_list")
     @TypeConverters(Converter.class)
-    private SongList songList;
+    private ArrayList<Song> songList;
 
     public int getID() {
         return ID;
@@ -37,11 +38,11 @@ public class SongData implements Serializable {
         this.searchTerm = searchTerm;
     }
 
-    public SongList getSongList() {
+    public ArrayList<Song> getSongList() {
         return songList;
     }
 
-    public void setSongList(SongList songList) {
+    public void setSongList(ArrayList<Song> songList) {
         this.songList = songList;
     }
 }

@@ -3,6 +3,7 @@ package com.swarnimodi.itunessearch;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,7 +20,7 @@ public class Controller implements Callback<SearchResult> {
 
     public String term;
     public Context context;
-    public static ArrayList<Song> songs = new ArrayList<>();
+    public static MutableLiveData<ArrayList<Song>> songs = new MutableLiveData<>();
     public static boolean isWorking;
 
     public Controller(Context context, String term) {
@@ -40,13 +41,13 @@ public class Controller implements Callback<SearchResult> {
     @Override
     public void onResponse(@NonNull Call<SearchResult> call, Response<SearchResult> response) {
         SearchResult searchResult =  response.body();
-        isWorking = true;
         try{
-            songs = (ArrayList<Song>) searchResult.getSongs();
+            songs.postValue((ArrayList<Song>)searchResult.getSongs());
         }
         catch (Exception e){
-            songs.clear();
+            songs.postValue(null);
         }
+        isWorking = true;
     }
 
     @Override

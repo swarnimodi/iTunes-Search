@@ -45,13 +45,6 @@ public class MainActivityViewModel extends ViewModel{
 
             @Override
             protected Void doInBackground(Void... voids) {
-
-                try {
-                    Thread.sleep(0);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
                 return null;
             }
         }.execute();

@@ -2,47 +2,32 @@ package com.swarnimodi.itunessearch;
 
 import androidx.room.TypeConverter;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Converter {
 
     @TypeConverter
-    public SongList storedStringToSongs(String value) {
+    public ArrayList<Song> storedStringToSongs(String value) {
 
-        if(value == null) {
-            return null;
+        Gson gson = new Gson();
+        if (value == null) {
+            return new ArrayList<>();
         }
-        else {
-            List<String> values = Arrays.asList(value.split("`"));
-            ArrayList<Song> s = new ArrayList<>(values.size()/3);
-            int i = 0;
-            while(i<values.size()) {
-                Song song = new Song();
-                song.setTrackName(values.get(i++));
-                song.setArtistName(values.get(i++));
-                song.setCollectionName(values.get(i++));
-                s.add(song);
-            }
-            return new SongList(s);
-        }
+        Type listType = new TypeToken<List<Song>>() {}.getType();
+        return gson.fromJson(value, listType);
+
     }
 
     @TypeConverter
-    public String songsToStoredString(SongList songList) {
-        if(songList == null) {
-            return null;
-        }
-        else {
-            StringBuilder value = new StringBuilder();
-            for(int i=0; i<songList.getSongList().size(); i++) {
-                value.append(songList.getSongList().get(i).getTrackName()).append("`");
-                value.append(songList.getSongList().get(i).getArtistName()).append("`");
-                value.append(songList.getSongList().get(i).getCollectionName()).append("`");
-            }
-            value = new StringBuilder(value.substring(value.length() - 1));
-            return value.toString();
-        }
+    public String songsToStoredString(ArrayList<Song> songList) {
+
+        Gson gson = new Gson();
+        return gson.toJson(songList);
+
     }
 }

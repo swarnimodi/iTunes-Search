@@ -3,10 +3,13 @@ package com.swarnimodi.itunessearch;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SongRepository {
 
@@ -45,28 +48,36 @@ public class SongRepository {
         database = RoomDB.getInstance(context);
         SongData RoomData = database.songDao().getSongs(searchTerm);
 
-        if (RoomData == null) {
-            if (Controller.isWorking) {
-                dataset.clear();
-                dataset.addAll(Controller.songs);
-                dataset.add(new Song("", "", ""));
-                dataset.add(new Song("", "", ""));
+        if(Controller.isWorking) {
 
-                RoomData = new SongData();
-                RoomData.setSearchTerm(searchTerm);
-                RoomData.setSongList(new SongList(dataset));
-                database.songDao().insert(RoomData);
-            }
-            else{
-                Toast.makeText(context, "Internet not working", Toast.LENGTH_SHORT).show();
-            }
+            dataset.clear();
+
+            Controller.songs.observe((LifecycleOwner) context, new Observer<ArrayList<Song>>() {
+                @Override
+                public void onChanged(ArrayList<Song> songs) {
+
+                    dataset.addAll(Objects.requireNonNull(Controller.songs.getValue()));
+                    dataset.add(new Song("", "", ""));
+                    dataset.add(new Song("", "", ""));
+                }
+            });
+
+            SongData Data = new SongData();
+            Data.setSearchTerm(searchTerm);
+            Data.setSongList(dataset);
+            database.songDao().insert(Data);
         }
         else{
-            SongList data = RoomData.getSongList();
-            dataset.clear();
-            dataset.addAll(data.getSongList());
-            dataset.add(new Song("", "", ""));
-            dataset.add(new Song("", "", ""));
+            if(RoomData != null){
+                ArrayList<Song> data = RoomData.getSongList();
+                dataset.clear();
+                dataset.addAll(data);
+                dataset.add(new Song("", "", ""));
+                dataset.add(new Song("", "", ""));
+            }
+            else{
+                Toast.makeText(context, "An error occured", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
