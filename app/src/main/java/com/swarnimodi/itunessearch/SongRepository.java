@@ -42,15 +42,13 @@ public class SongRepository {
 
         //get search results here
         //add them like --> dataset.add(new Song(name:"...", artist:"...", album:"..."));
-
+        dataset.clear();
         Controller controller = new Controller(context, searchTerm);
         controller.start();
         database = RoomDB.getInstance(context);
         SongData RoomData = database.songDao().getSongs(searchTerm);
 
         if(Controller.isWorking) {
-
-            dataset.clear();
 
             Controller.songs.observe((LifecycleOwner) context, new Observer<ArrayList<Song>>() {
                 @Override
@@ -70,7 +68,6 @@ public class SongRepository {
         else{
             if(RoomData != null){
                 ArrayList<Song> data = RoomData.getSongList();
-                dataset.clear();
                 dataset.addAll(data);
                 dataset.add(new Song("", "", ""));
                 dataset.add(new Song("", "", ""));

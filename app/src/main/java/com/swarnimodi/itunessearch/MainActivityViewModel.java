@@ -35,6 +35,7 @@ public class MainActivityViewModel extends ViewModel{
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+                mSongs = new MutableLiveData<>();
                 //send search request
                 mSongs = mRepo.getSongs(context, search_term);
                 //after search results change, update
